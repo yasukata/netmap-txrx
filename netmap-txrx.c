@@ -10,6 +10,17 @@
 
 static int do_abort = 0;
 
+void usage(void)
+{
+	fprintf(stderr, "[usage]: netmap-txrx -i interface -f [tx or rx]\n\n");
+	fprintf(stderr, "[Examples] : They are similar to default netmap apps.\n");
+	fprintf(stderr, "- Create a virtual port (foo) and attach to a virtual switch (valex)\n");
+	fprintf(stderr, "  $  netmap-txrx -i valex:foo -f rx\n");
+	fprintf(stderr, "- Attach a physical NIC (eth0)\n");
+	fprintf(stderr, "  $  netmap-txrx -i netmap:eth0 -f rx\n");
+	exit(0);
+}
+
 /* Copied from netmap pkt-gen */
 static void sigint_h(int sig)
 {
@@ -220,8 +231,7 @@ int main(int argc, char **argv)
 	}
 
 	if (ifname == NULL) {
-		printf("Please specify an interface name by the -i option.");
-		return 1;
+		usage();
 	}
 
 	nmd = nm_open(ifname, NULL, 0, NULL);
